@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Store</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    .product { border: 1px solid #ccc; padding: 10px; margin: 10px; }
+    button { padding: 5px 10px; }
+  </style>
+</head>
+
+<body>
+
+<h1>My Online Store</h1>
+
+<div id="products"></div>
+
+<h2>Cart</h2>
+<div id="cart"></div>
+<p id="total"></p>
+
+<script>
+  const products = [
+    { name: "Headphones", price: 60, link: "https://www.amazon.com" },
+    { name: "Mouse", price: 30, link: "https://www.amazon.com" },
+    { name: "Keyboard", price: 90, link: "https://www.amazon.com" }
+  ];
+
+  let cart = [];
+
+  function renderProducts() {
+    const container = document.getElementById("products");
+    container.innerHTML = "";
+    products.forEach((p, index) => {
+      container.innerHTML += `
+        <div class="product">
+          <h3>${p.name}</h3>
+          <p>$${p.price}</p>
+          <button onclick="addToCart(${index})">Add to Cart</button>
+          <a href="${p.link}" target="_blank">View</a>
+        </div>
+      `;
+    });
+  }
+
+  function addToCart(index) {
+    cart.push(products[index]);
+    renderCart();
+  }
+
+  function renderCart() {
+    const cartDiv = document.getElementById("cart");
+    cartDiv.innerHTML = "";
+    let total = 0;
+
+    cart.forEach((item, i) => {
+      total += item.price;
+      cartDiv.innerHTML += `
+        <div>
+          ${item.name} - $${item.price}
+          <button onclick="removeFromCart(${i})">X</button>
+        </div>
+      `;
+    });
+
+    document.getElementById("total").innerText = "Total: $" + total;
+  }
+
+  function removeFromCart(i) {
+    cart.splice(i, 1);
+    renderCart();
+  }
+
+  renderProducts();
+</script>
+
+</body>
+</html>
